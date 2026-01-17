@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+      <head>
+        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+        <title>Cookie Clicker</title>
+
+    <style>
+        /* CSS is like the "skin" how it looks*/
+        body {
+            font-family: "Press Start 2P", cursive;
+            background: #29379E;
+            color: #8E9EED;
+            height: 100vh;
+
+            display: flex; /*centers everything*/
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            }
+
+        button {
+            margin: 6px;
+            border: 2px solid #EB9431;
+            padding: 10px 16px;
+            background-color:#F0C34F;
+            color:#EB9431 #EB9431;
+            font-family: "Press Start 2P", cursive;
+            font-size: 16px;
+            cursor: pointer;
+    ;
+            }
+
+        button.selected  /*the selected thing is a js thing a class*/ {
+            background: pink;
+            color: white;
+            }
+    </style>
+    </head>
+    <body>
+
+    <h1 id="title">Cookie clicker</h1>
+    <p id="output">Number of cookies:</p>
+
+    <button id="plusOne">+1</button>
+    <button id="reset">Reset</button>
+
+    <p id="lastScore"></p>
+
+    <script>
+        function getElement(id) {
+            return document.getElementById(id);
+        }
+
+        const output = getElement("output");
+        const title = getElement("title");
+        const lastScore = getElement("lastScore");
+        const plusOneButton = getElement("plusOne");
+        const resetButton = getElement("reset");
+
+        let cookieCount= 0; 
+        let savedCookies = localStorage.getItem("cookieCount");
+            if (savedCookies === null) {
+                cookieCount =0; 
+            } else {
+                cookieCount=Number (savedCookies);
+            }
+
+        let lastScoreLog=0;
+        let savedScore = localStorage.getItem("lastScoreLog");
+            if (savedScore === null) {
+                lastScoreLog =0; 
+            } else {
+                lastScoreLog=Number (savedScore);
+            }
+        
+        
+        //saves? 
+        output.textContent = "Number of cookies: " + cookieCount;
+        if (lastScoreLog>0) {
+            lastScore.textContent = "Last score: " + lastScoreLog + " cookies";
+            title.textContent="Game in progress"; 
+        }
+
+        function buttonDoesStuff(button){
+    
+            button.addEventListener("click", ()=>{
+                console.log(button.id + " button was clicked");
+                
+                if (button.id==="reset") {
+                    lastScoreLog=cookieCount;
+                    localStorage.setItem("lastScoreLog", lastScoreLog.toString());
+
+                    cookieCount = 0;
+                    localStorage.setItem("cookieCount", cookieCount.toString());
+
+                    title.textContent = "Cookie clicker";
+                    output.textContent = "Number of cookies: " + cookieCount;
+                    lastScore.textContent = "Last score: " + lastScoreLog + " cookies";
+                    return;
+                }
+
+                else {
+                cookieCount = cookieCount + 1;
+
+                localStorage.setItem("cookieCount", cookieCount.toString());
+
+                title.textContent = "Game started!";
+                output.textContent = "Number of cookies: " + cookieCount;
+                }
+            })
+    }
+
+    buttonDoesStuff(plusOneButton);
+    buttonDoesStuff(resetButton);
+    
+    </script>
+
+  </body>
+</html>
